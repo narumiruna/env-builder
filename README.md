@@ -1,1 +1,1 @@
-# env-builder
+# Linker Training Environment Builder
