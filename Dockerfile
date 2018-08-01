@@ -1,9 +1,9 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
-ARG PYTHON=python3
-RUN ${PYTHON} -m pip install jupyter \
-    && rm -rf ~/.cache/pip
+# Install jupyter notebook
+COPY jupyter.sh /usr/local/bin
+RUN /bin/bash jupyter.sh
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
