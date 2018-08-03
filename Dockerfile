@@ -27,9 +27,20 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini 
     chmod +x /usr/local/bin/tini
 
 # Configure environment
-ENV LC_ALL=en_US.UTF-8 \
+ENV SHELL=/bin/bash \
+    NB_USER=narumi \
+    NB_UID=1000 \
+    NB_GID=100 \
+    LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
+
+# Create narumi user with UID=1000 and in the 'users' group
+# and make sure these dirs are writable by the `users` group.
+RUN groupadd wheel -g 11 && \
+    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
+    useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    chmod g+w /etc/passwd
 
 EXPOSE 8888
 WORKDIR /workspace
