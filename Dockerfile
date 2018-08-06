@@ -2,8 +2,11 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
 # Install jupyter notebook
-COPY jupyter.sh /usr/local/bin
-RUN /bin/bash jupyter.sh
+RUN if [ -n "$(which python3)" ]; \
+    then python3 -m pip install jupyter; \
+    elif [ -n "$(which python)" ]; \
+    then python -m pip install jupyter; \
+    fi
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
@@ -36,7 +39,6 @@ ENV SHELL=/bin/bash \
     LANGUAGE=en_US.UTF-8
 
 # Create narumi user with UID=1000 and in the 'users' group
-# and make sure these dirs are writable by the `users` group.
 RUN groupadd wheel -g 11 && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
