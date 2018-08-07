@@ -41,9 +41,9 @@ ENV SHELL=/bin/bash \
     LANGUAGE=en_US.UTF-8
 
 # Create aurora user with UID=1000 and in the 'aurora' group
-RUN groupadd --gid $GROUP_ID $GROUP_NAME \
-    && useradd --create-home --shell $SHELL --no-user-group --uid $USER_ID --gid $GROUP_ID $USER_NAME \
-    && usermod -p '*' $USER_NAME
+RUN groupadd -g $GROUP_ID $GROUP_NAME \
+    && useradd -m -s $SHELL -N -u $USER_ID -g $GROUP_ID $USER_NAME \
+    && echo $USER_NAME 'ALL=(ALL:ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 EXPOSE 8888
 WORKDIR /workspace
