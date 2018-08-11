@@ -23,8 +23,8 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 
 # Configure environment
 ENV SHELL=/bin/bash \
-    USER_NAME=aurora \
-    GROUP_NAME=aurora \
+    USER_NAME=narumi \
+    GROUP_NAME=narumi \
     USER_ID=1000 \
     GROUP_ID=2000 \
     LC_ALL=en_US.UTF-8 \
