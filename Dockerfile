@@ -2,11 +2,8 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
 # Install jupyter notebook
-RUN if [ -n "$(which python3)" ]; \
-    then python3 -m pip install jupyter; \
-    elif [ -n "$(which python)" ]; \
-    then python -m pip install jupyter; \
-    fi
+RUN if [ -n "$(which python3)" ]; then python3 -m pip install jupyter; \
+    elif [ -n "$(which python)" ]; then python -m pip install jupyter; fi
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
@@ -23,12 +20,6 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
-
-# Install Tini
-RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini && \
-    echo "1361527f39190a7338a0b434bd8c88ff7233ce7b9a4876f3315c22fce7eca1b0 *tini" | sha256sum -c - && \
-    mv tini /usr/local/bin/tini && \
-    chmod +x /usr/local/bin/tini
 
 # Configure environment
 ENV SHELL=/bin/bash \
